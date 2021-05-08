@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>
- * 《 在这里描述类的作用 》
+ * 服务配置
  * </p>
  *
  * @author 番茄ICE
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ServerConfigurationProperties {
 
-    private Integer port = 8080;
+    private Integer port = 2542;
 
     private String address = "127.0.0.1";
 

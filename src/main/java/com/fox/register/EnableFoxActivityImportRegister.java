@@ -51,7 +51,6 @@ public class EnableFoxActivityImportRegister implements CommandLineRunner {
             channelFuture = serverBootstrap.bind().sync();
             log.info("Netty服务 {}: {}", serverConfigurationProperties.getAddress(), serverConfigurationProperties.getPort());
             channelFuture.channel().closeFuture().sync();
-            log.info("结束了");
         } catch (Exception e) {
 
             log.error("error", e);
