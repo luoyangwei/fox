@@ -2,7 +2,6 @@ package com.fox;
 
 import com.fox.configuration.BootstrapConfigurableProperties;
 import com.fox.configuration.ScanActivityProperties;
-import com.fox.listener.ListenerContainer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -27,8 +26,8 @@ public class FoxActivityBootstrap {
     private NioEventLoopGroup workEventLoopGroup;
     private ChannelFuture channelFuture;
 
-    private BootstrapConfigurableProperties bootstrapConfigurableProperties;
-    private ScanActivityProperties scanActivityProperties;
+    private BootstrapConfigurableProperties bootstrapConfigurableProperties = null;
+    private ScanActivityProperties scanActivityProperties = null;
 
 
     public FoxActivityBootstrap() {
@@ -55,10 +54,20 @@ public class FoxActivityBootstrap {
 
 
     /**
-     * 不是用Spring的启动方式
+     * 不使用Spring的启动方式
      */
     protected void bootstrap() {
+        
+        // 注册Activity
+        registerActivity();
+
+        // 启动
         bootstrap(bootstrapConfigurableProperties.getAddress(), bootstrapConfigurableProperties.getPort());
+    }
+
+
+    protected void registerActivity() {
+
     }
 
 
