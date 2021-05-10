@@ -8,15 +8,17 @@ package com.fox.message.converter;
  * @author 番茄ICE
  * @since 2021/5/8 package: com.fox.message
  */
-public interface MessageConverter {
+public interface MessageConverter<T> {
 
 
     /**
      * 消息转换
      *
      * @param message 消息内容
+     *
+     * @return 转换后的对象
      */
-    void convert(String message);
+    T convert(String message);
 
 
 }

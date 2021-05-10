@@ -1,5 +1,6 @@
 package com.fox.message.recognizer;
 
+import com.fox.message.EventMessage;
 import com.fox.message.converter.PreMessageConverter;
 
 /**
@@ -23,8 +24,8 @@ public class EventMessageRecognizer implements TypesMessageRecognizer {
 
 
     @Override
-    public String getMessageContentType() {
-        return null;
+    public Class<?> getMessageContentType() {
+        return EventMessage.class;
     }
 
 }

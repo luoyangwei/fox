@@ -1,13 +1,19 @@
 package com.fox.register;
 
+import com.fox.FoxActivityBootstrap;
 import com.fox.WssServerInitializer;
+import com.fox.listener.ListenerContainer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 
@@ -20,46 +26,26 @@ import java.net.InetSocketAddress;
  * @since 2021/5/6 package: com.fox.register
  */
 @Slf4j
-public class EnableFoxActivityImportRegister implements CommandLineRunner {
+@Component
+public class EnableFoxActivityImportRegister extends FoxActivityBootstrap implements ApplicationListener<ApplicationReadyEvent> {
 
-    private NioEventLoopGroup bossEventLoopGroup;
-
-    private NioEventLoopGroup workEventLoopGroup;
-
-    private ServerBootstrap serverBootstrap;
-
-    private ChannelFuture channelFuture;
 
     private final ServerConfigurationProperties serverConfigurationProperties;
+
 
     @Autowired
     public EnableFoxActivityImportRegister(ServerConfigurationProperties serverConfigurationProperties) {
         this.serverConfigurationProperties = serverConfigurationProperties;
     }
 
+
     @Override
-    public void run(String... args) throws Exception {
-        try {
-
-            bossEventLoopGroup = new NioEventLoopGroup();
-            workEventLoopGroup = new NioEventLoopGroup();
-            serverBootstrap = new ServerBootstrap();
-            serverBootstrap.group(bossEventLoopGroup, workEventLoopGroup)
-                    .channel(NioServerSocketChannel.class)
-                    .localAddress(new InetSocketAddress(serverConfigurationProperties.getAddress(), serverConfigurationProperties.getPort()))
-                    .childHandler(new WssServerInitializer());
-            channelFuture = serverBootstrap.bind().sync();
-            log.info("Netty服务 {}: {}", serverConfigurationProperties.getAddress(), serverConfigurationProperties.getPort());
-            channelFuture.channel().closeFuture().sync();
-        } catch (Exception e) {
-
-            log.error("error", e);
-        } finally {
-            channelFuture.channel().close();
-            bossEventLoopGroup.shutdownGracefully();
-            workEventLoopGroup.shutdownGracefully();
-        }
-
+    public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
+        ConfigurableApplicationContext configurableApplicationContext = applicationReadyEvent.getApplicationContext();
+        ConfigurableListableBeanFactory configurableListableBeanFactory = configurableApplicationContext.getBeanFactory();
+        // 启动
+        bootstrap(serverConfigurationProperties.getAddress(), serverConfigurationProperties.getPort(), configurableListableBeanFactory);
     }
+
 
 }

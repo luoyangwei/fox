@@ -1,7 +1,9 @@
 package com.fox.message;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -15,6 +17,8 @@ import java.io.Serializable;
  */
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageTemplate implements Serializable {
 
     private static final long serialVersionUID = -9051333174894830361L;

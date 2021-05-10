@@ -24,8 +24,7 @@ public interface TypesMessageRecognizer {
      *
      * @return type
      */
-    String getMessageContentType();
-
+    Class<?> getMessageContentType();
 
 
 

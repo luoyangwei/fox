@@ -1,5 +1,6 @@
 package com.fox.demo.activity;
 
+import com.fox.activity.Activity;
 import com.fox.activity.ApplicationActivity;
 import com.fox.annotation.View;
 
@@ -16,9 +17,8 @@ public class DemoActivity extends ApplicationActivity {
 
 
     @Override
-    public void setContextView() {
-
+    public Activity setContextView() {
+        return this;
     }
-
 
 }

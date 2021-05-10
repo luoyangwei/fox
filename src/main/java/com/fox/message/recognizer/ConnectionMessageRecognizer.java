@@ -1,5 +1,7 @@
 package com.fox.message.recognizer;
 
+import com.fox.message.ConnectionMessage;
+
 /**
  * <p>
  * 连接消息内容识别
@@ -20,8 +22,8 @@ public class ConnectionMessageRecognizer implements TypesMessageRecognizer {
 
 
     @Override
-    public String getMessageContentType() {
-        return null;
+    public Class<?> getMessageContentType() {
+        return ConnectionMessage.class;
     }
 
 }

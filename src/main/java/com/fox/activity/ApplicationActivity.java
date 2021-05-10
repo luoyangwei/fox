@@ -8,7 +8,7 @@ package com.fox.activity;
  * @author 番茄ICE
  * @since 2021/5/8 package: com.fox.activity
  */
-public abstract class ApplicationActivity implements Activity {
+public abstract class ApplicationActivity extends StoreActivityFactory implements Activity {
 
     private String contextViewId;
 
@@ -18,14 +18,17 @@ public abstract class ApplicationActivity implements Activity {
 
 
     public ApplicationActivity(String contextViewId) {
+        // 设置了视图
         this.contextViewId = contextViewId;
+        // 加入当前Activity
+        setContextView();
     }
 
 
     /**
      * 设置视图
      */
-    abstract protected void setContextView();
+    abstract protected Activity setContextView();
 
 
     @Override
