@@ -1,6 +1,6 @@
 package com.fox;
 
-import com.fox.register.EnableFoxActivityServer;
+import com.fox.register.EnableFoxJavaServer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author luoyangwei
  */
 @SpringBootApplication
-@EnableFoxActivityServer
-public class FoxActivityApplication {
+@EnableFoxJavaServer
+public class FoxJavaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FoxActivityApplication.class, args);
+        SpringApplication.run(FoxJavaApplication.class, args);
     }
 
 }

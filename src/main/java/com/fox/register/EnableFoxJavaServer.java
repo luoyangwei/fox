@@ -16,6 +16,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import({EnableFoxActivityImportRegister.class})
-public @interface EnableFoxActivityServer {
+@Import({EnableFoxJavaImportRegister.class})
+public @interface EnableFoxJavaServer {
 }

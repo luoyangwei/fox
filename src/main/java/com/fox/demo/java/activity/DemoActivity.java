@@ -1,4 +1,4 @@
-package com.fox.demo.activity;
+package com.fox.demo.java.activity;
 
 import com.fox.activity.Activity;
 import com.fox.activity.ApplicationActivity;

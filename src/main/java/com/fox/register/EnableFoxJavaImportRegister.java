@@ -1,12 +1,6 @@
 package com.fox.register;
 
-import com.fox.FoxActivityBootstrap;
-import com.fox.WssServerInitializer;
-import com.fox.listener.ListenerContainer;
-import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
+import com.fox.FoxJavaBootstrap;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -14,8 +8,6 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.stereotype.Component;
-
-import java.net.InetSocketAddress;
 
 /**
  * <p>
@@ -27,14 +19,14 @@ import java.net.InetSocketAddress;
  */
 @Slf4j
 @Component
-public class EnableFoxActivityImportRegister extends FoxActivityBootstrap implements ApplicationListener<ApplicationReadyEvent> {
+public class EnableFoxJavaImportRegister extends FoxJavaBootstrap implements ApplicationListener<ApplicationReadyEvent> {
 
 
     private final ServerConfigurationProperties serverConfigurationProperties;
 
 
     @Autowired
-    public EnableFoxActivityImportRegister(ServerConfigurationProperties serverConfigurationProperties) {
+    public EnableFoxJavaImportRegister(ServerConfigurationProperties serverConfigurationProperties) {
         this.serverConfigurationProperties = serverConfigurationProperties;
     }
 

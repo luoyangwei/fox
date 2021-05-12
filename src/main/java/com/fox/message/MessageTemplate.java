@@ -1,7 +1,6 @@
 package com.fox.message;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,7 +15,6 @@ import java.io.Serializable;
  * @since 2021/5/8 package: com.fox.message
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageTemplate implements Serializable {

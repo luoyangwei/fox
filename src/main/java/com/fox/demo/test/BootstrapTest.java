@@ -1,6 +1,6 @@
 package com.fox.demo.test;
 
-import com.fox.FoxActivityBootstrap;
+import com.fox.FoxJavaBootstrap;
 import com.fox.configuration.BootstrapConfigurableProperties;
 import com.fox.configuration.ScanActivityProperties;
 
@@ -21,8 +21,8 @@ public class BootstrapTest {
         bootstrapConfigurableProperties.setAddress("127.0.0.1");
         bootstrapConfigurableProperties.setPort(2542);
         ScanActivityProperties scanActivityProperties = new ScanActivityProperties();
-        scanActivityProperties.setBasePackages("com.fox");
-        FoxActivityBootstrap bootstrap = new FoxActivityBootstrap(bootstrapConfigurableProperties, scanActivityProperties);
+        scanActivityProperties.setBasePackages("com.fox.demo.java");
+        FoxJavaBootstrap bootstrap = new FoxJavaBootstrap(bootstrapConfigurableProperties, scanActivityProperties);
     }
 
 }

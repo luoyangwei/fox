@@ -2,6 +2,7 @@ package com.fox;
 
 import com.fox.configuration.BootstrapConfigurableProperties;
 import com.fox.configuration.ScanActivityProperties;
+import com.fox.register.ConfigurableLoadClasses;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -20,7 +21,7 @@ import java.net.InetSocketAddress;
  * @since 2021/5/10 package: com.fox
  */
 @Slf4j
-public class FoxActivityBootstrap {
+public class FoxJavaBootstrap {
 
     private NioEventLoopGroup bossEventLoopGroup;
     private NioEventLoopGroup workEventLoopGroup;
@@ -30,11 +31,11 @@ public class FoxActivityBootstrap {
     private ScanActivityProperties scanActivityProperties = null;
 
 
-    public FoxActivityBootstrap() {
+    public FoxJavaBootstrap() {
         // 加载配置的包所有的类
     }
 
-    public FoxActivityBootstrap(BootstrapConfigurableProperties bootstrapConfigurableProperties, ScanActivityProperties scanActivityProperties) {
+    public FoxJavaBootstrap(BootstrapConfigurableProperties bootstrapConfigurableProperties, ScanActivityProperties scanActivityProperties) {
         this.bootstrapConfigurableProperties = bootstrapConfigurableProperties;
         this.scanActivityProperties = scanActivityProperties;
         bootstrap();
@@ -57,16 +58,19 @@ public class FoxActivityBootstrap {
      * 不使用Spring的启动方式
      */
     protected void bootstrap() {
-        
+
+        ConfigurableLoadClasses configurableLoadClasses = new ConfigurableLoadClasses(scanActivityProperties.getBasePackages());
+        configurableLoadClasses.scanFiles(scanActivityProperties.getBasePackages());
+
         // 注册Activity
-        registerActivity();
+        registerActivity(configurableLoadClasses);
 
         // 启动
         bootstrap(bootstrapConfigurableProperties.getAddress(), bootstrapConfigurableProperties.getPort());
     }
 
 
-    protected void registerActivity() {
+    protected void registerActivity(ConfigurableLoadClasses configurableLoadClasses) {
 
     }
 
@@ -89,7 +93,7 @@ public class FoxActivityBootstrap {
                     .localAddress(new InetSocketAddress(address, port))
                     .childHandler(new WssServerInitializer());
             channelFuture = serverBootstrap.bind().sync();
-            log.info("Netty服务 {}: {}", address, port);
+            log.info("{}:{}", address, port);
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {
 
