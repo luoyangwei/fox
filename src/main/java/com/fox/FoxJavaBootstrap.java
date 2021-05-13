@@ -13,6 +13,7 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.net.InetSocketAddress;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
@@ -60,6 +61,8 @@ public class FoxJavaBootstrap {
      * 不使用Spring的启动方式
      */
     protected void bootstrap() {
+        Objects.requireNonNull(bootstrapConfigurableProperties);
+        Objects.requireNonNull(scanActivityProperties);
 
         // Load classes
         ConfigurableLoadClasses configurableLoadClasses = new ConfigurableLoadClasses(scanActivityProperties.getBasePackages());
