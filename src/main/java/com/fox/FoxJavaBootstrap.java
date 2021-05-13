@@ -3,6 +3,7 @@ package com.fox;
 import com.fox.configuration.BootstrapConfigurableProperties;
 import com.fox.configuration.ScanActivityProperties;
 import com.fox.register.ConfigurableLoadClasses;
+import com.fox.register.HandleableConfigurationView;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 
 import java.net.InetSocketAddress;
+import java.util.Map;
 
 /**
  * <p>
@@ -59,19 +61,34 @@ public class FoxJavaBootstrap {
      */
     protected void bootstrap() {
 
+        // Load classes
         ConfigurableLoadClasses configurableLoadClasses = new ConfigurableLoadClasses(scanActivityProperties.getBasePackages());
         configurableLoadClasses.scanFiles(scanActivityProperties.getBasePackages());
 
-        // 注册Activity
+        // register
+        registerMessageConverter();
+        registerEventHandler();
         registerActivity(configurableLoadClasses);
 
-        // 启动
+        // bootstrap
         bootstrap(bootstrapConfigurableProperties.getAddress(), bootstrapConfigurableProperties.getPort());
+
+    }
+
+
+    protected void registerEventHandler() {
+        // TODO 注册自定义事件消息
+    }
+
+
+    protected void registerMessageConverter() {
+        // TODO 注册自定义的消息转换方式
     }
 
 
     protected void registerActivity(ConfigurableLoadClasses configurableLoadClasses) {
-
+        Map<String, HandleableConfigurationView> handleableActivityMap = configurableLoadClasses.getActivityClasses();
+        // TODO 创建动态代理
     }
 
 
@@ -82,7 +99,6 @@ public class FoxJavaBootstrap {
      * @param port    注册端口
      */
     protected void bootstrap(String address, int port) {
-
         try {
 
             bossEventLoopGroup = new NioEventLoopGroup();
@@ -104,7 +120,6 @@ public class FoxJavaBootstrap {
             bossEventLoopGroup.shutdownGracefully();
             workEventLoopGroup.shutdownGracefully();
         }
-
     }
 
 

@@ -10,4 +10,16 @@ package com.fox.event;
  */
 public interface EventListener {
 
+
+    /**
+     * 按钮创建
+     */
+    void created();
+
+
+    /**
+     * 被销毁
+     */
+    void destroyed();
+
 }

@@ -23,17 +23,5 @@ public interface ButtonEventListener extends EventListener {
     void change();
 
 
-    /**
-     * 按钮创建
-     */
-    void created();
-
-
-    /**
-     * 被销毁
-     */
-    void destroyed();
-
-
 }
 

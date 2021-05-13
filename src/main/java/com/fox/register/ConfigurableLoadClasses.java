@@ -3,6 +3,7 @@ package com.fox.register;
 import com.fox.activity.Activity;
 import com.fox.annotation.View;
 import com.fox.event.ButtonEvent;
+import com.fox.event.EventListener;
 import com.fox.utils.AnnotationUtils;
 import com.fox.utils.ClassLoaderUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class ConfigurableLoadClasses {
 
 
     /**
-     *
+     * 加载class的路径
      */
     private String basePackage;
 
@@ -39,14 +40,12 @@ public class ConfigurableLoadClasses {
     /**
      * Activity
      */
-    private static final Map<String, Class<?>> activityClasses = new ConcurrentHashMap<>();
-    private static final Map<String, HandleableConfigurationView> aliasActivityClasses = new ConcurrentHashMap<>();
+    private static final Map<String, HandleableConfigurationView> activityClasses = new ConcurrentHashMap<>();
 
     /**
      * Button
      */
-    private static final Map<String, Class<?>> buttonClasses = new ConcurrentHashMap<>();
-    private static final Map<String, HandleableConfigurationView> aliasButtonClasses = new ConcurrentHashMap<>();
+    private static final Map<String, HandleableConfigurationView> buttonClasses = new ConcurrentHashMap<>();
 
 
     public ConfigurableLoadClasses() {
@@ -72,15 +71,18 @@ public class ConfigurableLoadClasses {
 
                     // Activity
                     if (theObject instanceof Activity) {
-                        activityClasses.put(loadedClass.getSimpleName(), loadedClass);
-                        packageViewAnnotateClasses(aliasActivityClasses, new HandleableActivity(loadedClass));
+                        packageViewAnnotateClasses(activityClasses, new HandleableActivity(loadedClass));
                     }
 
-                    // Button
-                    if (theObject instanceof ButtonEvent) {
-                        buttonClasses.put(loadedClass.getSimpleName(), loadedClass);
-                        packageViewAnnotateClasses(aliasButtonClasses, new HandleableButton(loadedClass));
+                    // Event
+                    if (theObject instanceof EventListener) {
+
+                        // Button
+                        if (theObject instanceof ButtonEvent) {
+                            packageViewAnnotateClasses(buttonClasses, new HandleableButton(loadedClass));
+                        }
                     }
+
                 }
 
             }
@@ -101,6 +103,16 @@ public class ConfigurableLoadClasses {
 
             log.error("instantiationException", instantiationException);
         }
+    }
+
+
+    public Map<String, HandleableConfigurationView> getActivityClasses() {
+        return activityClasses;
+    }
+
+
+    public Map<String, HandleableConfigurationView> getButtonClasses() {
+        return buttonClasses;
     }
 
 
