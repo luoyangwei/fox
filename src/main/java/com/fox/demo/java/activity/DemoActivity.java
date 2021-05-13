@@ -16,6 +16,7 @@ import com.fox.annotation.View;
 public class DemoActivity extends ApplicationActivity {
 
 
+
     @Override
     public Activity setContextView() {
         return this;

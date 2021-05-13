@@ -1,6 +1,9 @@
 package com.fox.register;
 
 import com.fox.activity.Activity;
+import com.fox.annotation.View;
+import com.fox.event.ButtonEvent;
+import com.fox.utils.AnnotationUtils;
 import com.fox.utils.ClassLoaderUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,7 +36,17 @@ public class ConfigurableLoadClasses {
     private static final Map<String, Class<?>> enduranceClasses = new ConcurrentHashMap<>();
 
 
+    /**
+     * Activity
+     */
     private static final Map<String, Class<?>> activityClasses = new ConcurrentHashMap<>();
+    private static final Map<String, HandleableConfigurationView> aliasActivityClasses = new ConcurrentHashMap<>();
+
+    /**
+     * Button
+     */
+    private static final Map<String, Class<?>> buttonClasses = new ConcurrentHashMap<>();
+    private static final Map<String, HandleableConfigurationView> aliasButtonClasses = new ConcurrentHashMap<>();
 
 
     public ConfigurableLoadClasses() {
@@ -47,7 +60,6 @@ public class ConfigurableLoadClasses {
 
 
     public void scanFiles(String basePackage) {
-
         try {
 
             Class<?>[] classes = ClassLoaderUtils.getClasses(basePackage);
@@ -60,15 +72,21 @@ public class ConfigurableLoadClasses {
 
                     // Activity
                     if (theObject instanceof Activity) {
-
-                        log.info("theObject: {}", theObject);
                         activityClasses.put(loadedClass.getSimpleName(), loadedClass);
+                        packageViewAnnotateClasses(aliasActivityClasses, new HandleableActivity(loadedClass));
+                    }
+
+                    // Button
+                    if (theObject instanceof ButtonEvent) {
+                        buttonClasses.put(loadedClass.getSimpleName(), loadedClass);
+                        packageViewAnnotateClasses(aliasButtonClasses, new HandleableButton(loadedClass));
                     }
                 }
 
             }
 
             log.info("Class activity size: {}", activityClasses.size());
+            log.info("Class button size: {}", buttonClasses.size());
 
         } catch (ClassNotFoundException classNotFoundException) {
 
@@ -84,5 +102,22 @@ public class ConfigurableLoadClasses {
             log.error("instantiationException", instantiationException);
         }
     }
+
+
+    /**
+     * 把视图配置更新到集合里面
+     *
+     * @param classesMap                  视图结合
+     * @param handleableConfigurationView 视图
+     */
+    private void packageViewAnnotateClasses(Map<String, HandleableConfigurationView> classesMap, HandleableConfigurationView handleableConfigurationView) {
+        if (AnnotationUtils.hasViewAnnotated(handleableConfigurationView.getClazz(), View.class)) {
+
+            View view = handleableConfigurationView.getClazz().getAnnotation(View.class);
+            String viewId = AnnotationUtils.getViewValue(view);
+            classesMap.put(viewId, handleableConfigurationView);
+        }
+    }
+
 
 }

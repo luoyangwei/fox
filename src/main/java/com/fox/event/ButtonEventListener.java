@@ -11,5 +11,29 @@ package com.fox.event;
 public interface ButtonEventListener extends EventListener {
 
 
+    /**
+     * 点击
+     */
+    void click();
+
+
+    /**
+     * 改变
+     */
+    void change();
+
+
+    /**
+     * 按钮创建
+     */
+    void created();
+
+
+    /**
+     * 被销毁
+     */
+    void destroyed();
+
 
 }
+
