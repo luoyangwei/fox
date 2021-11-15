@@ -1,0 +1,15 @@
+{
+  "response": {
+    "action": "click",
+    "actionElement": "button",
+    // 是否是正常结束的
+    "isNormal": true,
+    // 如果是异常结束的，这里会有异常内容
+    "exception": {
+      "code": "",
+      "message": ""
+    },
+    // 开发者相应内容，可以是一个对象，也可以是一个集合，甚至可以不用返回内容，返回一个空的内容也可以，只要操作是成功的
+    "body": {}
+  }
+}
