@@ -1,6 +1,6 @@
 package com.fox;
 
-import com.fox.handler.DefaultSimpleChannelHandler;
+import com.fox.handler.DefaultChannelMessageHandler;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -39,7 +39,7 @@ public class WssServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
 
         // 自定义handler
-        pipeline.addLast(new DefaultSimpleChannelHandler());
+        pipeline.addLast(new DefaultChannelMessageHandler());
     }
 
 }

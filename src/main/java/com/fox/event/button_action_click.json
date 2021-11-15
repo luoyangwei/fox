@@ -1,0 +1,20 @@
+{
+  "page": {
+    // activity 信息
+    "activity": {
+      "id": "test_activity"
+    },
+    // 按钮执行的操作
+    "action": "click",
+    // 打开一个新的页面并且传入参数，这里可以到后端的 activity 里面接受得到参数
+    "to": "$activity:test2_activity?p=1&m=2",
+    // 按钮信息
+    "button": {
+      "id": "test_click_button",
+      "text": "测试按钮",
+      "width": "100px",
+      "height": "50px",
+      "background": "black"
+    }
+  }
+}

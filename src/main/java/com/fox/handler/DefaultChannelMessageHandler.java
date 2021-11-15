@@ -1,7 +1,5 @@
 package com.fox.handler;
 
-import com.fox.message.converter.DefaultMessageConverter;
-import com.fox.message.converter.MessageConverter;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -22,13 +20,12 @@ import java.time.LocalDateTime;
  * @since 2021/5/6 package: com.fox.handler
  */
 @Slf4j
-public class DefaultSimpleChannelHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class DefaultChannelMessageHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
 
-    private final MessageConverter<Object> messageConverter = new DefaultMessageConverter<>();
 
 
-    public DefaultSimpleChannelHandler() {
+    public DefaultChannelMessageHandler() {
     }
 
 
@@ -43,8 +40,6 @@ public class DefaultSimpleChannelHandler extends SimpleChannelInboundHandler<Tex
         // 客户端传递过来的消息
         String content = textWebSocketFrame.text();
         System.out.println("接收到了客户端的消息是:" + content);
-
-        messageConverter.convert(content);
 
         // 将客户端发送过来的消息刷到所有的channel中
         for (Channel channel : clients) {
