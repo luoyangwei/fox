@@ -1,6 +1,7 @@
 package com.fox;
 
 import com.fox.handler.DefaultChannelMessageHandler;
+import com.fox.register.ConfigurableLoadClasses;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -21,6 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WssServerInitializer extends ChannelInitializer<SocketChannel> {
 
+    private ConfigurableLoadClasses configurableLoadClasses;
+
+    public WssServerInitializer(ConfigurableLoadClasses configurableLoadClasses) {
+        this.configurableLoadClasses = configurableLoadClasses;
+    }
+
     @Override
     protected void initChannel(SocketChannel socketChannel) throws Exception {
         ChannelPipeline pipeline = socketChannel.pipeline();
@@ -39,7 +46,7 @@ public class WssServerInitializer extends ChannelInitializer<SocketChannel> {
         pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
 
         // 自定义handler
-        pipeline.addLast(new DefaultChannelMessageHandler());
+        pipeline.addLast(new DefaultChannelMessageHandler(configurableLoadClasses));
     }
 
 }

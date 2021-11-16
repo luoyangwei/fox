@@ -52,8 +52,11 @@ public class FoxJavaBootstrap {
      * @param configurableListableBeanFactory bean工厂
      */
     protected void bootstrap(String address, int port, ConfigurableListableBeanFactory configurableListableBeanFactory) {
+        // Load classes
+        ConfigurableLoadClasses configurableLoadClasses = new ConfigurableLoadClasses(scanActivityProperties.getBasePackages());
+        configurableLoadClasses.scanFiles(scanActivityProperties.getBasePackages());
         // 注册监听器
-        bootstrap(address, port);
+        bootstrap(address, port, configurableLoadClasses);
     }
 
 
@@ -74,7 +77,8 @@ public class FoxJavaBootstrap {
         registerActivity(configurableLoadClasses);
 
         // bootstrap
-        bootstrap(bootstrapConfigurableProperties.getAddress(), bootstrapConfigurableProperties.getPort());
+        bootstrap(bootstrapConfigurableProperties.getAddress(), bootstrapConfigurableProperties.getPort(),
+                configurableLoadClasses);
 
     }
 
@@ -101,7 +105,7 @@ public class FoxJavaBootstrap {
      * @param address 注册地址
      * @param port    注册端口
      */
-    protected void bootstrap(String address, int port) {
+    protected void bootstrap(String address, int port, ConfigurableLoadClasses configurableLoadClasses) {
         try {
 
             bossEventLoopGroup = new NioEventLoopGroup();
@@ -110,7 +114,7 @@ public class FoxJavaBootstrap {
             serverBootstrap.group(bossEventLoopGroup, workEventLoopGroup)
                     .channel(NioServerSocketChannel.class)
                     .localAddress(new InetSocketAddress(address, port))
-                    .childHandler(new WssServerInitializer());
+                    .childHandler(new WssServerInitializer(configurableLoadClasses));
             channelFuture = serverBootstrap.bind().sync();
             log.info("{}:{}", address, port);
             channelFuture.channel().closeFuture().sync();
